@@ -14,7 +14,17 @@ def queries(state, items):
 
     return data_lista_de_listas
 
+def querie_all(state):
 
+    conn=sqlite3.connect('snowflake.db')
+
+    c=conn.cursor()
+    c.execute(f"SELECT City FROM Personas where LastName='{state}'")
+
+    data_state=c.fetchall()
+    conn.close()
+
+    return data_state
 
 # c.execute("SELECT * FROM Personas where LastName='espsar'")
 # c.execute("UPDATE Personas SET Problema = 'new_email@example.com' WHERE LastName = 'juan' OR LastName= 'azra'")
