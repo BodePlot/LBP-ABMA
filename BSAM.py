@@ -37,6 +37,8 @@ data_dropdown_type= [str(r) for r in flat_data_dropdown]
 
 data_state=querie_all('azra')
 
+data_status=querie_all('espsar')
+
 def layout_admin():
     
     headings = ['Account', 'Posted','DT', 'CoCd', 'Allocation', 'Textline','TaxType', 'Amount', 'State', 'DueDate', 'Age', '# Trans', 'Audit', 'Completed' ]
@@ -51,7 +53,7 @@ def layout_admin():
         [sg.Button("Go back", size=(8,2), button_color=("#024A86", "#ccffff"), font=("Arial", 12, "bold")), sg.Text("Analyst", text_color="#024A86", font=('Arial', 12, "bold")), sg.DropDown(["Persona 1", "Persona 2", "Persona 3"], size=(15, 1),font=('Arial'), readonly=True),
         sg.Text("State", text_color="#024A86", font=('Arial', 12, "bold")), sg.Input(data_state, key="-STATE-", size=(10, 1), background_color='lightgray', disabled=True),
         sg.Text("#Items", text_color="#024A86", font=('Arial', 12, "bold")), sg.Input(len(data), key="-ITEMS-", size=(7, 1), background_color='lightgray', disabled=True),
-        sg.Text("Status", text_color="#024A86",font=('Arial', 12, "bold")), sg.Input(key="-STATUS-", size=(18, 1), background_color='lightgray', disabled=True),
+        sg.Text("Status", text_color="#024A86",font=('Arial', 12, "bold")), sg.Input(data_status, key="-STATUS-", size=(18, 1), background_color='lightgray', disabled=True),
         sg.Text("Type", text_color="#024A86", font=('Arial', 12, "bold")), sg.DropDown(data_dropdown_type, size=(12, 1),font=('Arial'), readonly=True),
         sg.Text("Age", text_color="#024A86", font=('Arial', 12, "bold")), sg.DropDown(["ALL AGED", "ALL AGEDss"], size=(12, 1),font=('Arial'), readonly=True),
         sg.Text("Audit Hold", text_color="#024A86", font=('Arial', 12, "bold")), sg.DropDown(["ALL ITEMS"], pad=(10, 25), size=(15, 1),font=('Arial'), readonly=True)],
@@ -107,7 +109,6 @@ while True:
         items=str(values['-ITEMS-'])
         status=str(values['-STATUS-'])
 
-
     if event == "Update":
 
         data=[]
@@ -125,25 +126,26 @@ while True:
         window["-ITEMS-"].update(len(data))
 
     if event=='-Button_Menu-':
+
         selected_menu = values['-Button_Menu-']
 
         if selected_menu == 'Filed Claim':    
-            print('jajaja')
+            print('a')
         elif selected_menu == 'Unfiled Claim':
-            print('jajaja')
+            print('b')
         elif selected_menu == 'Refund Collected':
-            print('jajaja')
+            print('c')
         elif selected_menu == 'Deposit':
-            print('jajaja')
+            print('d')
         elif selected_menu == 'Next Return':
-            print('jajaja')
+            print('e')
         elif selected_menu == 'Amend':
-            print('jajaja')
+            print('f')
         elif selected_menu == 'Other Jur Return':
-            print('jajaja')
+            print('g')
         elif selected_menu == 'TPP':
-            print('jajaja')
+            print('h')
         elif selected_menu == 'Taxability Issue':
-            print('jajaja')
+            print('i')
 
 window.close()
