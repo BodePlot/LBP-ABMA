@@ -2,7 +2,7 @@ import PySimpleGUI as sg
 from QUERIES import queries
 
 # Definimos los temas para la GUI
-sg.theme("Default1")
+sg.theme("Default")
 
 
 menu_def = ['Reconciling item',
@@ -30,8 +30,8 @@ layout = [
 
     [sg.Text("", size=(10, 1)), sg.Text("Analyst", text_color="#024A86", font=('Arial', 12, "bold")), sg.DropDown(["Persona 1", "Persona 2", "Persona 3"], size=(15, 1),font=('Arial'), readonly=True),
      sg.Text("State", text_color="#024A86", font=('Arial', 12, "bold")), sg.Input(key="-STATE-", size=(10, 1), background_color='lightgray'),
-     sg.Text("#Items", text_color="#024A86", font=('Arial', 12, "bold")), sg.Input(key="-ITEMS-", size=(7, 1), background_color='lightgray'),
-     sg.Text("Status", text_color="#024A86",font=('Arial', 12, "bold")), sg.Input(key="-STATUS-", size=(18, 1), background_color='lightgray'),
+     sg.Text("#Items", text_color="#024A86", font=('Arial', 12, "bold")), sg.Input(key="-ITEMS-", size=(7, 1), background_color='lightgray', disabled=True),
+     sg.Text("Status", text_color="#024A86",font=('Arial', 12, "bold")), sg.Input(key="-STATUS-", size=(18, 1), background_color='lightgray', disabled=True),
      sg.Text("Type", text_color="#024A86", font=('Arial', 12, "bold")), sg.DropDown(data, size=(12, 1),font=('Arial'), readonly=True),
      sg.Text("Age", text_color="#024A86", font=('Arial', 12, "bold")), sg.DropDown(["ALL AGED", "ALL AGEDss"], size=(12, 1),font=('Arial'), readonly=True),
      sg.Text("Audit Hold", text_color="#024A86", font=('Arial', 12, "bold")), sg.DropDown(["ALL ITEMS"], pad=(10, 25), size=(15, 1),font=('Arial'), readonly=True)]
@@ -50,7 +50,7 @@ layout = [
         auto_size_columns=False,
         num_rows=15,
         key="-TABLE-", 
-        background_color='#DAE0E6',
+        background_color='#C0C0C0',
         header_text_color='black'
     ), sg.Text("", size=(1, 1)), sg.Button("SAP Report", size=(10,2), button_color=("#024A86", "#ccffff"), font=("Arial", 12, "bold"))],
 
@@ -75,6 +75,7 @@ window = sg.Window("BISAM", layout, size=(1500, 700), resizable=True)
 while True:
     event, values = window.read()
 
+
     if event == sg.WIN_CLOSED or event == "Cancel":
         break
 
@@ -89,18 +90,17 @@ while True:
         window["-TABLE-"].update(values=data)
     
     if event == "Update":
-    
-        window["-TABLE-"].update(values=[])
+        data=[]
+        window["-TABLE-"].update(values=data)
+        window["-ITEMS-"].update(len(data))
     
     if event == "SAP Report":
-        name=522222222222222222222222222222222222222222
+        name=52222
         age=22
         gender=33
         cronico=11
-        azra=66
         # Añade una nueva fila de datos a la lista 'data'
-        data.append([name, age, gender, cronico, azra])
-
+        data.append([name, age, gender, cronico])
         # Actualiza el contenido de la tabla
         window["-TABLE-"].update(values=data)
         window["-ITEMS-"].update(len(data))
