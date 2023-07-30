@@ -30,22 +30,31 @@ def layout_main():
 
 
 window = sg.Window("Main Menu", layout_main(),size=(800,500))
-data= queries('juan')
+data= queries('juan','azra')
 
 def layout_admin():
-    menu_def = ['Reconciling item',
-        [
-            'List Component 1',
-                [['Bin A               ::algo', 'Bin B::algos','Bin A::13', 'Bin B::algod']],
+    # menu_def = ['Reconciling item',
+    #     [
+    #         'List Component 1',
+    #             [['Bin A', 'Bin B::algos','Bin A::13', 'Bin B::algod']],
 
-            'Rack 2',
-                [['Bin A          ::21', 'Bin B::22', 'Bin B::23', 'Bin B::24']],
+    #         'Rack 2',
+    #             [['Bin A          ::21', 'Bin B::22', 'Bin B::23', 'Bin B::24']],
 
-            'Rack 3',
-                [['Bin A       ::21']],
-        ]
-    ]
+    #         'Rack 3',
+    #             [['Bin A       ::21']],
+    #     ]
+    # ]
 
+    # menu_def =  [
+    #             ['File', ['Open', 'Save','Exit']],
+    #             ['Edit', ['Paste', ['Special','Normal'], 'Undo']],
+    #             ['Help', 'About']
+    #             ]
+
+    menu_defa = [['File', ['New', 'Open', 'Save', 'Exit', ]], ['Edit', ['Cut', 'Copy', 'Paste', 'Undo'], ],  ['Help', 'About...'] ]
+
+    
 
     headings = ['Account', 'Posted','DT', 'CoCd', 'Allocation', 'Textline','TaxType', 'Amount', 'State', 'DueDate', 'Age', '# Trans', 'Audit', 'Completed' ]
 
@@ -76,7 +85,7 @@ def layout_admin():
         [sg.Text("Category                       ", pad=(10, 15),text_color="#024A86", font=('Arial', 12, "bold")), sg.DropDown(["Optiona", "Options", "Optiodn"], size=(20, 1), readonly=True), sg.Text("", size=(13, 1)), sg.Text("Original Month",text_color="#024A86", font=('Arial', 12, "bold")), sg.Input(key="-STATE-", size=(15, 1), background_color='lightgray')],
         [sg.Text("Statute of Limitation  ", pad=(10, 15),text_color="#024A86", font=('Arial', 12, "bold")),sg.Input(key="-STATE-", size=(20, 10), background_color='lightgray'), sg.Text("", size=(15, 1)), sg.Text("End Month       ", text_color="#024A86", font=('Arial', 12, "bold")), sg.Input(key="-STATE-", size=(15, 1), background_color='lightgray')],
         [sg.Text("Collaboration Tool ID", pad=(10, 15),text_color="#024A86", font=('Arial', 12, "bold")), sg.Input(key="-COLABTOOL-", size=(20, 10), background_color='lightgray')],
-        [sg.Text("", size=(57, 1)), sg.Button("Update", size=(10,2), button_color=("#024A86", "#ccffff"), font=("Arial", 12, "bold")), sg.Text("", size=(10, 1)), sg.ButtonMenu('Location', menu_def=menu_def, key='Button_Menu', button_color=("#024A86", "#ccffff"), font=("Arial", 12, "bold"), size=(20,1))],
+        [sg.Text("", size=(57, 1)), sg.Button("Update", size=(10,2), button_color=("#024A86", "#ccffff"), font=("Arial", 12, "bold")), sg.Text("", size=(10, 1)), sg.ButtonMenu('Location', menu_defa,  key='-Button_Menu-', button_color=("#024A86", "#ccffff"), font=("Arial", 12, "bold"), size=(20,1))],
         [sg.Text("", pad=(10, 10))],
         [sg.Button("OK", button_color=("#024A86", "#ccffff"), font=("Arial", 12, "bold")), sg.Button("Exit", button_color=("#024A86", "#ccffff"), font=("Arial", 12, "bold"))]
         ]
@@ -121,5 +130,12 @@ while True:
         data.append([name, age, gender, cronico])
         window["-TABLE-"].update(values=data)
         window["-ITEMS-"].update(len(data))
+
+    if event=='-Button_Menu-':
+        selected_menu = values['-Button_Menu-']
+
+        if selected_menu=='Paste':    
+            
+            print('jajaja')
 
 window.close()

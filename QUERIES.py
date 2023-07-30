@@ -1,11 +1,11 @@
 import sqlite3
 
-def queries(state):
+def queries(state, items):
 
     conn=sqlite3.connect('snowflake.db')
 
     c=conn.cursor()
-    c.execute(f"SELECT * FROM Personas where LastName='{state}'")
+    c.execute(f"SELECT * FROM Personas where LastName='{state}' or LastName='{items}'")
     # c.execute("SELECT * FROM Personas")
     data=c.fetchall()
     conn.close()
@@ -16,11 +16,8 @@ def queries(state):
 
 
 
-# conn=sqlite3.connect('snowflake.db')
-# c=conn.cursor()
-
-# # c.execute("SELECT * FROM Personas where LastName='espsar'")
-# # c.execute("UPDATE Personas SET Problema = 'new_email@example.com' WHERE LastName = 'juan' OR LastName= 'azra'")
+# c.execute("SELECT * FROM Personas where LastName='espsar'")
+# c.execute("UPDATE Personas SET Problema = 'new_email@example.com' WHERE LastName = 'juan' OR LastName= 'azra'")
 
 # data=c.fetchall()
 
@@ -30,4 +27,4 @@ def queries(state):
 # conn.commit()
 # conn.close()
 
-# # c.execute("ALTER TABLE Personas ADD COLUMN another TEXT")
+# c.execute("ALTER TABLE Personas ADD COLUMN another TEXT")
