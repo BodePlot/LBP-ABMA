@@ -1,6 +1,7 @@
 import PySimpleGUI as sg
 from QUERIES import queries, querie_all
 from datetime import datetime, timedelta
+from pygame import mixer
 
 # Definimos los temas para la GUI
 sg.theme("Default")
@@ -31,13 +32,16 @@ def layout_main():
 #Todo lo que sea condiciones iniciales
 data= queries('juan','azra')  #tabla inicial
 
-data_dropdown= queries('juan','azra')[0]
-flat_data_dropdown = [item for sublist in data_dropdown for item in sublist]
-data_dropdown_type= [str(r) for r in flat_data_dropdown]
+
+
+# data_dropdown= queries('juan','azra')[0]
+# flat_data_dropdown = [item for sublist in data_dropdown for item in sublist]
+# data_dropdown_type= [str(r) for r in flat_data_dropdown]
 
 data_state=querie_all('azra')
 
 data_status=querie_all('espsar')
+
 
 def layout_admin():
     
@@ -54,7 +58,7 @@ def layout_admin():
         sg.Text("State", text_color="#024A86", font=('Arial', 12, "bold")), sg.Input(data_state, key="-STATE-", size=(10, 1), background_color='lightgray', disabled=True),
         sg.Text("#Items", text_color="#024A86", font=('Arial', 12, "bold")), sg.Input(len(data), key="-ITEMS-", size=(7, 1), background_color='lightgray', disabled=True),
         sg.Text("Status", text_color="#024A86",font=('Arial', 12, "bold")), sg.Input(data_status, key="-STATUS-", size=(18, 1), background_color='lightgray', disabled=True),
-        sg.Text("Type", text_color="#024A86", font=('Arial', 12, "bold")), sg.DropDown(data_dropdown_type, size=(12, 1),font=('Arial'), readonly=True),
+        sg.Text("Type", text_color="#024A86", font=('Arial', 12, "bold")), sg.DropDown("jaja", size=(12, 1),font=('Arial'), readonly=True),
         sg.Text("Age", text_color="#024A86", font=('Arial', 12, "bold")), sg.DropDown(["ALL AGED", "ALL AGEDss"], size=(12, 1),font=('Arial'), readonly=True),
         sg.Text("Audit Hold", text_color="#024A86", font=('Arial', 12, "bold")), sg.DropDown(["ALL ITEMS"], pad=(10, 25), size=(15, 1),font=('Arial'), readonly=True)],
         [sg.Text("", size=(10, 1)), sg.Text(f"Reporting month: {past_month}", text_color="#024A86", font=("Arial", 12, "bold")), sg.Text("", size=(106, 1)), sg.Text("Completed", text_color="#024A86", font=('Arial', 12, "bold")), sg.DropDown(["All"], size=(8, 1),font=('Arial'), readonly=True)],
@@ -84,7 +88,57 @@ def layout_admin():
     
     return layout_admin
 
+
+def layout_tres():
+    
+    headings = ['Account', 'Posted','DT', 'CoCd', 'Allocation', 'Textline','TaxType', 'Amount', 'State', 'DueDate', 'Age', '# Trans', 'Audit', 'Completed' ]
+    menu_def =  [
+                [], 
+                ['List Component',      [['Filed Claim','Refund Collected', 'Deposit']] , 
+                 'Timing Component',    [['Next Return ','Amend', 'Other Jur Return', 'TPP']],
+                 'Required Adjustment', [['Taxability Issue']] 
+                 ]]
+
+    # layout_tres = [
+    #     [sg.Button("Go back", size=(8,2), button_color=("#024A86", "#ccffff"), font=("Arial", 12, "bold")), sg.Text("Analyst", text_color="#024A86", font=('Arial', 12, "bold")), sg.DropDown(["Persona 1", "Persona 2", "Persona 3"], size=(15, 1),font=('Arial'), readonly=True),
+    #     sg.Text("State", text_color="#024A86", font=('Arial', 12, "bold")), sg.Input(data_state, key="-STATE-", size=(10, 1), background_color='lightgray', disabled=True),
+    #     sg.Text("#Items", text_color="#024A86", font=('Arial', 12, "bold")), sg.Input(len(data), key="-ITEMS-", size=(7, 1), background_color='lightgray', disabled=True),
+    #     sg.Text("Status", text_color="#024A86",font=('Arial', 12, "bold")), sg.Input(data_status, key="-STATUS-", size=(18, 1), background_color='lightgray', disabled=True),
+    #     sg.Text("Type", text_color="#024A86", font=('Arial', 12, "bold")), sg.DropDown(data_dropdown_type, size=(12, 1),font=('Arial'), readonly=True),
+    #     sg.Text("Age", text_color="#024A86", font=('Arial', 12, "bold")), sg.DropDown(["ALL AGED", "ALL AGEDss"], size=(12, 1),font=('Arial'), readonly=True),
+    #     sg.Text("Audit Hold", text_color="#024A86", font=('Arial', 12, "bold")), sg.DropDown(["ALL ITEMS"], pad=(10, 25), size=(15, 1),font=('Arial'), readonly=True)],
+    #     [sg.Text("", size=(10, 1)), sg.Text(f"Reporting month: {past_month}", text_color="#024A86", font=("Arial", 12, "bold")), sg.Text("", size=(106, 1)), sg.Text("Completed", text_color="#024A86", font=('Arial', 12, "bold")), sg.DropDown(["All"], size=(8, 1),font=('Arial'), readonly=True)],
+    #     [sg.Text("", pad=(1, 1))],
+    #     [sg.Text("", size=(1, 1)),
+         
+    #     sg.Table(
+    #     values=data,
+    #     headings=headings,
+    #     max_col_width=200,
+    #     def_col_width=10,
+    #     auto_size_columns=False,
+    #     num_rows=15,
+    #     key="-TABLE-", 
+    #     background_color='#C0C0C0',
+    #     header_text_color='black'), 
+        
+    #     sg.Text("", size=(1, 1)), sg.Button("SAP Report", size=(10,2), button_color=("#024A86", "#ccffff"), font=("Arial", 12, "bold"))],
+    #     [sg.Text("Category                       ", pad=(10, 15),text_color="#024A86", font=('Arial', 12, "bold")), sg.DropDown(["Optiona", "Options", "Optiodn"], size=(20, 1), readonly=True), sg.Text("", size=(13, 1)), sg.Text("Original Month",text_color="#024A86", font=('Arial', 12, "bold")), sg.Input(key="-STATE-", size=(15, 1), background_color='lightgray')],
+    #     [sg.Text("Statute of Limitation  ", pad=(10, 15),text_color="#024A86", font=('Arial', 12, "bold")),sg.Input(key="-STATE-", size=(20, 10), background_color='lightgray'), sg.Text("", size=(15, 1)), sg.Text("End Month       ", text_color="#024A86", font=('Arial', 12, "bold")), sg.Input(key="-STATE-", size=(15, 1), background_color='lightgray')],
+    #     [sg.Text("Collaboration Tool ID", pad=(10, 15),text_color="#024A86", font=('Arial', 12, "bold")), sg.Input(key="-COLABTOOL-", size=(20, 10), background_color='lightgray')],
+    #     [sg.Text("", size=(57, 1)), sg.Button("Update", size=(10,2), button_color=("#024A86", "#ccffff"), font=("Arial", 12, "bold")), sg.Text("", size=(10, 1)), sg.ButtonMenu('Reconciling Item', menu_def,  key='-Button_Menu-', button_color=("#024A86", "#ccffff"), font=("Arial", 12, "bold"), size=(20,1))],
+    #     [sg.Text("", pad=(10, 10))],
+    #     # [sg.Image("Sin título.png", size=(250,250))],
+    #     [sg.Button("OK", button_color=("#024A86", "#ccffff"), font=("Arial", 12, "bold")), sg.Button("Exit", button_color=("#024A86", "#ccffff"), font=("Arial", 12, "bold"))]
+    #     ]
+    
+    # return layout_tres
+
 window = sg.Window("Main Menu", layout_main(),size=(800,500), resizable=True)
+
+
+
+
 
 while True:
     event, values = window.read()
@@ -105,14 +159,24 @@ while True:
 
     if event == "OK":
 
+        # window = sg.Window("Main Menus", layout_tres(),size=(1500, 900), resizable=True)
         state=str(values['-STATE-'])
         items=str(values['-ITEMS-'])
         status=str(values['-STATUS-'])
 
+        data = [sublista for sublista in data if sublista[2][0] == 'kacmaz']
+        # data = [[[elemento.replace('a', '') if isinstance(elemento, str) else elemento for elemento in sublista] for sublista in lista_externa] for lista_externa in data]
+        # for lista_externa in data:
+        #     for sublista in lista_externa:
+        #         for i, elemento in enumerate(sublista):
+        #             if isinstance(elemento, str):
+        #                 sublista[i] = elemento.replace('a', '')
+
+        window["-TABLE-"].update(values=data)
+
     if event == "Update":
 
         data=[]
-        window["-TABLE-"].update(values=data)
         window["-ITEMS-"].update(len(data))
     
     if event == "SAP Report":
