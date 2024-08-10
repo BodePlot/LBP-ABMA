@@ -1,24 +1,48 @@
-name: Compile GUI for Mac
-# run this job manually
-on: workflow_dispatch
+name: Build
+
+on: [push]
+
+defaults:
+  run:
+    shell: bash
+    working-directory: app
+
 jobs:
-  deploy:
-    runs-on: macos-latest
+  Build:
+    name: Build release binaries
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - macos-latest
+          - ubuntu-latest
+          - windows-latest
+
+    runs-on: ${{ matrix.os }}
+
     steps:
-      # used to checkout different branches
-      - uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Setup Python
+        uses: actions/setup-python@v2
         with:
-          # checkout my specific branch
-          ref: main
-      - uses: actions/setup-python@v4
-        with:
-          python-version: "3.10"
-      - name: pip install dependencies
-        run: pip install -r requirements.txt
-      - name: compile GUI for Mac OS
-        run: python -m eel src/python/gui_main.py src/web/ --onefile --noconsole --name my_gui_mac --icon=src/assets/logo_condensed.ico
-      - name: see files
+          python-version: 3.8
+
+      - name: Install Python dependencies
         run: |
-          cd dist/
-          ls
-          pwd
+          python -m pip install --upgrade pip pyinstaller pytest
+
+      - name: Test with pytest
+        run: pytest
+
+      - name: Build with pyinstaller
+        run: pyinstaller --onefile --name=app-${{ matrix.os }} main.py
+
+      - name: Deploy artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: app-${{ matrix.os }}
+          path: app/dist/app-${{ matrix.os }}*
+          if-no-files-found: error
