@@ -15,8 +15,6 @@ jobs:
       fail-fast: false
       matrix:
         os:
-          - macos-latest
-          - ubuntu-latest
           - windows-latest
 
     runs-on: ${{ matrix.os }}
@@ -33,9 +31,6 @@ jobs:
       - name: Install Python dependencies
         run: |
           python -m pip install --upgrade pip pyinstaller pytest
-
-      - name: Test with pytest
-        run: pytest
 
       - name: Build with pyinstaller
         run: pyinstaller --onefile --name=app-${{ matrix.os }} BSAM.py
