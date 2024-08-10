@@ -1,7 +1,7 @@
 import PySimpleGUI as sg
 from QUERIES import queries, querie_all
 from datetime import datetime, timedelta
-from pygame import mixer
+
 
 # Definimos los temas para la GUI
 sg.theme("Default")
@@ -31,7 +31,6 @@ def layout_main():
 
 #Todo lo que sea condiciones iniciales
 data= queries('juan','azra')  #tabla inicial
-
 
 
 # data_dropdown= queries('juan','azra')[0]
