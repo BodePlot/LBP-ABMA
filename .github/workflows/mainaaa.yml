@@ -15,8 +15,6 @@ jobs:
       fail-fast: false
       matrix:
         os:
-          - macos-latest
-          - ubuntu-latest
           - windows-latest
 
     runs-on: ${{ matrix.os }}
@@ -35,7 +33,7 @@ jobs:
           python -m pip install --upgrade pip pyinstaller
 
       - name: Build with pyinstaller
-        run: pyinstaller --onefile --name=app-${{ matrix.os }} BSAM.py
+        run: pyinstaller --onefile --name=app-${{ matrix.os }} gui.py
 
       - name: Deploy artifacts
         uses: actions/upload-artifact@v2
